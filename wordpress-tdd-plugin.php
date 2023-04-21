@@ -24,12 +24,12 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register the shortcode.
  *
- * @param array<string> $atts Shortcode attributes.
- * @param string        $content Shortcode content.
+ * @param mixed  $atts Shortcode attributes.
+ * @param string $content Shortcode content.
  *
  * @return string
  */
-function create_shorcode_tdd_plugin( array $atts, string $content = '' ): string {
+function create_shorcode_tdd_plugin( mixed $atts, string $content = '' ): string {
 
 	$default_font  = get_option( 'tdd_font', 'Arial, Helvetica, sans-serif' );
 	$default_color = get_option( 'tdd_color', '' );
@@ -48,7 +48,7 @@ function create_shorcode_tdd_plugin( array $atts, string $content = '' ): string
 	<?php
 	$shortcode_html = ob_get_clean();
 	if ( false !== $shortcode_html ) {
-		return $shortcode_html;
+		return trim( $shortcode_html );
 	}
 	return '<div></div>';
 }
