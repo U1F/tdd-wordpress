@@ -6,6 +6,14 @@
         "phpunit": "phpunit"
     },
     "require-dev": {
-        "yoast/phpunit-polyfills": "1.0.3"
+        "yoast/phpunit-polyfills": "1.0.3",
+        "phpstan/phpstan": "*",
+        "szepeviktor/phpstan-wordpress": "^1.2",
+        "phpstan/extension-installer": "^1.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     }
 }

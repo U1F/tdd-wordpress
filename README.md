@@ -41,6 +41,20 @@ We also would need phpunit of course
 chmod 777 vendor composer.json composer.lock
 docker-compose exec wp install-wp-tests
 # docker-compose exec wp composer require phpunit/phpunit=^7
+# touch .phpunit.result.cache
+chmod 777 .phpunit.result.cache
 docker-compose exec wp composer update
 docker-compose exec wp composer phpunit
+``` 
+
+In case we also want static code analysis with phpstan and wordpress rules
+```bash
+# touch phpstan.neon
+# docker-compose exec wp composer require -dev phpstan/phpstan
+sudo chown -R www-data:www-data vendor
+
+docker-compose exec wp composer require --dev phpstan/phpstan
+docker-compose exec wp composer require --dev szepeviktor/phpstan-wordpress
+docker-compose exec wp composer require --dev phpstan/extension-installer
+history
 ``` 

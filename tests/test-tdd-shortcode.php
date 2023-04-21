@@ -21,6 +21,5 @@ class TddTest extends WP_UnitTestCase {
 		$expected = '<div style="font-family: monospaced; color: red; font-weight: normal">hola</div>';
 
 		$this->assertEquals( $actual, $expected );
-		$this->assertTrue( false ); // Just to verify phpunit.
 	}
 }
