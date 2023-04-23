@@ -31,7 +31,7 @@ docker-compose exec wp wp-cli scaffold plugin-tests wordpress-tdd-plugin
 docker-compose exec wp install-wp-tests
 
 # We have to install the php dependencies (install or update)
-docker-compose exec wp composer install
+docker-compose exec wp composer update
 
 # There is a prepared test that should work now. Check with:
 docker-compose exec wp composer phpunit
