@@ -24,17 +24,24 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register the shortcode.
  *
+ * To test this function, you can use the following shortcode:
+ * [tdd-shortcode font=monospace weight=900 color=red]Hello, world![/tdd-shortcode]
+ *
  * @param mixed  $atts Shortcode attributes.
  * @param string $content Shortcode content.
  *
  * @return string
  */
-function create_shorcode_tdd_plugin( mixed $atts, string $content = '' ): string {
+function create_shorcode_tdd_plugin( mixed $atts = '', string $content = '' ): string {
 
 	$default_font  = get_option( 'tdd_font', 'Arial, Helvetica, sans-serif' );
 	$default_color = get_option( 'tdd_color', '' );
 
-	$atts = shortcode_atts(
+	if ( '' === $atts) {
+		$atts = array();
+	}
+
+	$filtered_atts = shortcode_atts(
 		array(
 			'font'   => $default_font,
 			'color'  => $default_color,
@@ -44,7 +51,7 @@ function create_shorcode_tdd_plugin( mixed $atts, string $content = '' ): string
 	);
 	ob_start();
 	?>
-	<div style="font-family: <?php echo esc_html( $atts['font'] ); ?>; color: <?php echo esc_html( $atts['color'] ); ?>; font-weight: <?php echo esc_html( $atts['weight'] ); ?>"><?php echo esc_html( $content ); ?></div>
+	<div style="font-family: <?php echo esc_html( $filtered_atts['font'] ); ?>; color: <?php echo esc_html( $filtered_atts['color'] ); ?>; font-weight: <?php echo esc_html( $filtered_atts['weight'] ); ?>"><?php echo esc_html( $content ); ?></div>
 	<?php
 	$shortcode_html = ob_get_clean();
 	if ( false !== $shortcode_html ) {
