@@ -2,3 +2,4 @@ vendor
 .travis.yml
 composer.lock
 tests/test-sample.php
+wpcs
