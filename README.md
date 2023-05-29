@@ -11,7 +11,7 @@ https://www.smashingmagazine.com/2017/12/automated-testing-wordpress-plugins-php
 # How to use
 ```bash
 # install the dependencies with composer
-composer install
+#composer install <- don't do that yet. We do it inside the container
 # make sure docker is running
 docker --version
 # It should show someting like this:
