@@ -30,7 +30,7 @@ services:
       WORDPRESS_DEBUG: 1
     volumes:
       - wp-data:/var/www/html
-      - ./:/var/www/html/wp-content/plugins/wordpress-tdd-plugin
+      - ./plugin:/var/www/html/wp-content/plugins/wordpress-tdd-plugin
     ports:
       - 8080:80
     depends_on:

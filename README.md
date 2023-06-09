@@ -1,104 +1,94 @@
-# tdd-wordpress
-Stolen from: 
-https://marioyepes.com/wordpress-plugin-tdd-with-docker-phpunit/
+Test-Driven Development (TDD) for WordPress Plugins
 
-- The Dockerfile has to be changed to the name of the plugin
-There was an issue when trying to evoke phpunit and this helped:
-https://www.smashingmagazine.com/2017/12/automated-testing-wordpress-plugins-phpunit/
-- phpunit version bumped so it works with php8
-- There were some spelling mistakes
+This repo provides a setup for implementing Test-Driven Development (TDD) for WordPress plugins, using Docker and PHPUnit.
 
-# How to use
-```bash
-# install the dependencies with composer
-#composer install <- don't do that yet. We do it inside the container
-# make sure docker is running
+The repo was inspired by this tutorial, but has been updated to work with PHP 8 and has several enhancements.
+Setup
+
+This project requires Docker. Check if Docker is installed:
+
+bash
+
 docker --version
-# It should show someting like this:
-# Docker version 20.10.22, build 3a2c30b
 
-# Next, build the docker image
-docker-compose build wp
+The output should be something like:
 
-# Now, run the docker container if it's not running already:
+bash
+
+Docker version 20.10.22, build 3a2c30b
+
+Installing and Running Docker
+
+First, build the Docker image:
+
+bash
+
+DOCKER_BUILDKIT=1 docker-compose build wp
+
+Then, run the Docker container:
+
+bash
+
 docker-compose up
 
-# We now need to install scaffold and wp-tests inside the container
-# On another terminal run (change the name of the plugin):
-docker-compose exec wp wp-cli scaffold plugin-tests wordpress-tdd-plugin
+Installing Test Suite
 
-# Now we install the tests
+Run the following commands to scaffold the tests for your plugin (replace your-plugin-name with the name of your plugin):
+
+bash
+
+docker-compose exec wp wp-cli scaffold plugin-tests your-plugin-name
 docker-compose exec wp install-wp-tests
 
-# We have to install the php dependencies (install or update)
+Installing PHP Dependencies
+
+You need to install or update PHP dependencies inside the Docker container. Do this by running:
+
+bash
+
 docker-compose exec wp composer update
 
-# There is a prepared test that should work now. Check with:
+Now you're ready to write tests and code!
+Running Tests
+
+There is a prepared test that you can run to make sure everything is working correctly:
+
+bash
+
 docker-compose exec wp composer phpunit
 
-# It should show something like this:
-# 
-# PHPUnit 9.6.7 by Sebastian Bergmann and contributors.
-# 
-# .                                                                  
-#  1 / 1 (100%)
-# 
-# Time: 00:00.024, Memory: 36.50 MB
-# 
-# OK (1 test, 1 assertion)
+The output should be something like:
 
-# You're ready to go!
-```
-# command history
-(The commands that are no longer needed are commented out.)
+bash
 
-Set up the repo:
-```bash
-# touch .gitignore
-# git add .
-# git commit -m "first commit"
-# git branch -m main
-``` 
+PHPUnit 9.6.7 by Sebastian Bergmann and contributors.
 
-If the files in this repo are set up correctly install the 'test-suite':
-```bash
-DOCKER_BUILDKIT=1 docker-compose build wp
-docker-compose up
-```
+.                                                                  
+1 / 1 (100%)
 
-On another termonal:
-```bash
-# mkdir tests
+Time: 00:00.024, Memory: 36.50 MB
+
+OK (1 test, 1 assertion)
+
+Using Composer
+
+You can use Composer to manage dependencies. Make sure you run Composer commands within the Docker container, like so:
+
+bash
+
+docker exec -it tdd-plugin-app composer --working-dir=my-plugin-directory install
+
+PHPStan and PHPCS
+
+This setup also includes PHPStan for static analysis and PHPCS for code style checking. The necessary packages are included in the composer.json file and the configuration is set up to work with WordPress. You can run PHPStan and PHPCS commands using Composer.
+Note
+
+Remember to enable Docker BuildKit for the Docker image to build correctly. You can enable it by running export DOCKER_BUILDKIT=1 in your shell, or by setting "features": {"buildkit": true} in Docker's daemon.json file.
+
+# TODO File and Folder Permissions
+Something like: 
 # mkdir bin
 chmod 777 bin tests
 # touch .travis.yml .phpcs.xml.dist phpunit.xml.dist
 chmod 777 .travis.yml .phpcs.xml.dist phpunit.xml.dist
-docker-compose exec wp wp-cli scaffold plugin-tests wordpress-tdd-plugin
-
-
-```
-
-We also would need phpunit of course
-```bash
-# mkdir vendor
-# touch composer.json composer.lock
-chmod 777 vendor composer.json composer.lock
-docker-compose exec wp install-wp-tests
-# docker-compose exec wp composer require phpunit/phpunit=^7
-# touch .phpunit.result.cache
 chmod 777 .phpunit.result.cache
-docker-compose exec wp composer update
-docker-compose exec wp composer phpunit
-``` 
-
-In case we also want static code analysis with phpstan and wordpress rules
-```bash
-# touch phpstan.neon
-# docker-compose exec wp composer require -dev phpstan/phpstan
-sudo chown -R www-data:www-data vendor
-
-docker-compose exec wp composer require --dev phpstan/phpstan
-docker-compose exec wp composer require --dev szepeviktor/phpstan-wordpress
-docker-compose exec wp composer require --dev phpstan/extension-installer
-history
-``` 

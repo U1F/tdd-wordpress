@@ -1,0 +1,11 @@
+{
+    "require": {
+        "phpunit/phpunit": "^9"
+    },
+    "scripts": {
+        "phpunit": "phpunit"
+    },
+    "require-dev": {
+        "yoast/phpunit-polyfills": "1.0.3"
+    }
+}

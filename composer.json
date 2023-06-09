@@ -1,12 +1,5 @@
 {
-    "require": {
-        "phpunit/phpunit": "^9"
-    },
-    "scripts": {
-        "phpunit": "phpunit"
-    },
     "require-dev": {
-        "yoast/phpunit-polyfills": "1.0.3",
         "phpstan/phpstan": "*",
         "szepeviktor/phpstan-wordpress": "^1.2",
         "phpstan/extension-installer": "^1.3",
